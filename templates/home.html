@@ -1,52 +1,264 @@
 {% extends "base.html" %}
 
-{% block title %}Hangarin - Home{% endblock %}
+{% block title %}Home | Hangarin{% endblock %}
 
 {% block content %}
 
-<section class="hero">
-    <h1>Hangarin</h1>
-    <p>Organize your tasks, manage your priorities, and accomplish your goals.</p>
+<!-- HERO -->
+<section class="home-hero">
 
-    <a href="{% url 'task-add' %}" class="button">
-        Add New Task
-    </a>
+    <div class="hero-content">
+
+        <span class="hero-label">
+            YOUR PERSONAL TASK MANAGER
+        </span>
+
+        <h1>
+            Turn your plans into
+            <span>progress.</span>
+        </h1>
+
+        <p>
+            Organize your tasks, manage your priorities,
+            and stay focused on what matters.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="{% url 'task-add' %}" class="home-button primary">
+                + Add New Task
+            </a>
+
+            <a href="{% url 'task-list' %}" class="home-button secondary">
+                View My Tasks
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-decoration">
+        <div class="hero-circle">
+            <span>✓</span>
+        </div>
+    </div>
+
 </section>
 
-<h2>Upcoming Tasks</h2>
 
-<div class="task-grid">
+<!-- STATISTICS -->
+<section class="stats-section">
 
-    {% for task in tasks %}
+    <div class="section-heading">
+        <div>
+            <span class="section-label">OVERVIEW</span>
+            <h2>Your productivity</h2>
+        </div>
+    </div>
 
-    <div class="card">
 
-        <h3>{{ task.title }}</h3>
+    <div class="stats-grid">
 
-        <p>{{ task.description|truncatewords:20 }}</p>
+        <div class="stat-card">
 
-        <p>
-            <strong>Status:</strong>
-            {{ task.status }}
-        </p>
+            <div class="stat-icon blue">
+                ✓
+            </div>
 
-        <p>
-            <strong>Deadline:</strong>
-            {{ task.deadline }}
-        </p>
+            <div>
+                <span class="stat-number">
+                    {{ tasks|length }}
+                </span>
 
-        <a href="{% url 'task-detail' task.pk %}" class="button">
-            View Task
+                <span class="stat-label">
+                    Total Tasks
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon yellow">
+                !
+            </div>
+
+            <div>
+                <span class="stat-number">
+                    {{ tasks|length }}
+                </span>
+
+                <span class="stat-label">
+                    Upcoming
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+                →
+            </div>
+
+            <div>
+                <span class="stat-number">
+                    {{ tasks|length }}
+                </span>
+
+                <span class="stat-label">
+                    In Progress
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- UPCOMING TASKS -->
+<section class="upcoming-section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="section-label">
+                STAY ON TRACK
+            </span>
+
+            <h2>Upcoming tasks</h2>
+        </div>
+
+        <a href="{% url 'task-list' %}" class="view-all">
+            View all →
         </a>
 
     </div>
 
-    {% empty %}
 
-    <p>No tasks yet.</p>
+    <div class="home-task-list">
 
-    {% endfor %}
+        {% for task in tasks|slice:":5" %}
 
-</div>
+        <article class="home-task-card">
+
+            <div class="task-status-dot
+                {% if task.status == 'Completed' %}
+                    completed
+                {% elif task.status == 'In Progress' %}
+                    progress
+                {% else %}
+                    pending
+                {% endif %}
+            ">
+            </div>
+
+
+            <div class="home-task-main">
+
+                <h3>
+                    {{ task.title }}
+                </h3>
+
+                <p>
+                    {{ task.description|truncatewords:15 }}
+                </p>
+
+
+                <div class="task-meta">
+
+                    <span>
+                        {{ task.category }}
+                    </span>
+
+                    <span>
+                        {{ task.priority }}
+                    </span>
+
+                    <span>
+                        {{ task.status }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="home-task-date">
+
+                <span>DEADLINE</span>
+
+                <strong>
+                    {{ task.deadline|date:"M d" }}
+                </strong>
+
+                <a href="{% url 'task-detail' task.pk %}">
+                    View →
+                </a>
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+        <div class="empty-tasks">
+
+            <div class="empty-icon">
+                ✓
+            </div>
+
+            <h3>No tasks yet</h3>
+
+            <p>
+                You're all caught up. Create your first task
+                and start making progress.
+            </p>
+
+            <a
+                href="{% url 'task-add' %}"
+                class="home-button primary"
+            >
+                + Create your first task
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- BOTTOM CTA -->
+<section class="home-cta">
+
+    <div>
+
+        <span class="section-label">
+            READY WHEN YOU ARE
+        </span>
+
+        <h2>
+            One task at a time.
+        </h2>
+
+        <p>
+            Break down your goals into manageable steps
+            and make progress every day.
+        </p>
+
+    </div>
+
+    <a href="{% url 'task-add' %}" class="home-button primary">
+        Create a Task
+    </a>
+
+</section>
 
 {% endblock %}
