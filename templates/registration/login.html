@@ -1,0 +1,202 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Log In | Hangarin</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/auth.css' %}"
+    >
+</head>
+
+<body class="auth-page">
+
+    <div class="decor decor-one"></div>
+    <div class="decor decor-two"></div>
+    <div class="decor decor-three"></div>
+
+    <main class="auth-container">
+
+        <div class="auth-card">
+
+            <div class="auth-brand">
+                <div class="brand-mark">H</div>
+
+                <h1>Welcome back</h1>
+
+                <p>
+                    Log in to continue managing your tasks.
+                </p>
+            </div>
+
+
+            <form method="post" class="auth-form">
+
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="form-error">
+                        Your username or password is incorrect.
+                        Please try again.
+                    </div>
+                {% endif %}
+
+
+                <div class="input-group">
+
+                    <label for="id_username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="id_username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <div class="password-label">
+
+                        <label for="id_password">
+                            Password
+                        </label>
+
+                        <a href="{% url 'password-reset' %}">
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="id_password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword()"
+                            aria-label="Show password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="remember-row">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            name="remember_me"
+                            id="remember_me"
+                        >
+
+                        <span>Remember me</span>
+
+                    </label>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Log in
+                </button>
+
+            </form>
+
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+
+            <div class="social-buttons">
+
+                <button
+                    type="button"
+                    class="social-button"
+                    disabled
+                    title="Google login can be connected later"
+                >
+                    <span class="social-icon google">G</span>
+                    Continue with Google
+                </button>
+
+                <button
+                    type="button"
+                    class="social-button"
+                    disabled
+                    title="GitHub login can be connected later"
+                >
+                    <span class="social-icon github">●</span>
+                    Continue with GitHub
+                </button>
+
+            </div>
+
+
+            <p class="signup-text">
+                New to Hangarin?
+                <a href="{% url 'signup' %}">
+                    Create an account
+                </a>
+            </p>
+
+
+            <a href="{% url 'home' %}" class="back-home">
+                ← Back to Hangarin
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("id_password");
+
+            if (password.type === "password") {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>

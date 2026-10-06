@@ -1,22 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}{{ task.title }} - Hangarin{% endblock %}
+{% block title %}{{ task.title }} | Hangarin{% endblock %}
 
 {% block content %}
 
-<div class="card">
-
-    <h1>{{ task.title }}</h1>
-
-    <p>{{ task.description }}</p>
-
-    <p><strong>Status:</strong> {{ task.status }}</p>
-
-    <p><strong>Priority:</strong> {{ task.priority }}</p>
-
-    <p><strong>Category:</strong> {{ task.category }}</p>
-
-    <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+<div class="page-header">
+    <div>
+        <h1>{{ task.title }}</h1>
+        <p>{{ task.description }}</p>
+    </div>
 
     <div class="actions">
         <a href="{% url 'task-edit' task.pk %}" class="button">
@@ -27,6 +19,34 @@
             Delete
         </a>
     </div>
+</div>
+
+
+<div class="task-info">
+
+    <div class="card">
+        <h3>Task Information</h3>
+
+        <p>
+            <strong>Status:</strong>
+            {{ task.status }}
+        </p>
+
+        <p>
+            <strong>Priority:</strong>
+            {{ task.priority }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ task.category }}
+        </p>
+
+        <p>
+            <strong>Deadline:</strong>
+            {{ task.deadline }}
+        </p>
+    </div>
 
 </div>
 
@@ -36,23 +56,37 @@
     <div class="page-header">
         <h2>SubTasks</h2>
 
-        <a href="{% url 'subtask-add' task.pk %}" class="button">
+        <a
+            href="{% url 'subtask-add' task.pk %}"
+            class="button"
+        >
             + Add SubTask
         </a>
     </div>
 
-    {% for subtask in task.subtasks %}
 
-    <div class="card small-card">
-        <h3>{{ subtask.title }}</h3>
-        <p><strong>Status:</strong> {{ subtask.status }}</p>
+    <div class="task-grid">
+
+        {% for subtask in task.subtasks.all %}
+
+            <div class="card">
+
+                <h3>{{ subtask.title }}</h3>
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ subtask.status }}
+                </p>
+
+            </div>
+
+        {% empty %}
+
+            <p>No subtasks yet.</p>
+
+        {% endfor %}
+
     </div>
-
-    {% empty %}
-
-    <p>No subtasks yet.</p>
-
-    {% endfor %}
 
 </div>
 
@@ -62,24 +96,42 @@
     <div class="page-header">
         <h2>Notes</h2>
 
-        <a href="{% url 'note-add' task.pk %}" class="button">
+        <a
+            href="{% url 'note-add' task.pk %}"
+            class="button"
+        >
             + Add Note
         </a>
     </div>
 
-    {% for note in task.notes.all %}
 
-    <div class="card small-card">
-        <p>{{ note.content }}</p>
-        <small>{{ note.created_at }}</small>
+    <div class="task-grid">
+
+        {% for note in task.notes.all %}
+
+            <div class="card">
+
+                <p>{{ note.content }}</p>
+
+                <small>
+                    Created: {{ note.created_at }}
+                </small>
+
+            </div>
+
+        {% empty %}
+
+            <p>No notes yet.</p>
+
+        {% endfor %}
+
     </div>
 
-    {% empty %}
-
-    <p>No notes yet.</p>
-
-    {% endfor %}
-
 </div>
+
+
+<a href="{% url 'task-list' %}" class="back-link">
+    ← Back to Tasks
+</a>
 
 {% endblock %}
