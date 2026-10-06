@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Add SubTask - Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h1>Add SubTask</h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="button">
+            Save SubTask
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

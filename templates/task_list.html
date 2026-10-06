@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks - Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>My Tasks</h1>
+
+    <a href="{% url 'task-add' %}" class="button">
+        + Add Task
+    </a>
+</div>
+
+<div class="task-grid">
+
+    {% for task in tasks %}
+
+    <div class="card">
+
+        <h2>{{ task.title }}</h2>
+
+        <p>{{ task.description|truncatewords:25 }}</p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ task.status }}
+        </p>
+
+        <p>
+            <strong>Priority:</strong>
+            {{ task.priority }}
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            {{ task.category }}
+        </p>
+
+        <p>
+            <strong>Deadline:</strong>
+            {{ task.deadline }}
+        </p>
+
+        <div class="actions">
+
+            <a href="{% url 'task-detail' task.pk %}" class="button">
+                View
+            </a>
+
+            <a href="{% url 'task-edit' task.pk %}" class="button">
+                Edit
+            </a>
+
+            <a href="{% url 'task-delete' task.pk %}" class="button danger">
+                Delete
+            </a>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <p>No tasks found.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

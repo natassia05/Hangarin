@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Hangarin - Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Hangarin</h1>
+    <p>Organize your tasks, manage your priorities, and accomplish your goals.</p>
+
+    <a href="{% url 'task-add' %}" class="button">
+        Add New Task
+    </a>
+</section>
+
+<h2>Upcoming Tasks</h2>
+
+<div class="task-grid">
+
+    {% for task in tasks %}
+
+    <div class="card">
+
+        <h3>{{ task.title }}</h3>
+
+        <p>{{ task.description|truncatewords:20 }}</p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ task.status }}
+        </p>
+
+        <p>
+            <strong>Deadline:</strong>
+            {{ task.deadline }}
+        </p>
+
+        <a href="{% url 'task-detail' task.pk %}" class="button">
+            View Task
+        </a>
+
+    </div>
+
+    {% empty %}
+
+    <p>No tasks yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
