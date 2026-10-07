@@ -113,4 +113,6 @@ urlpatterns = [
         ),
         name="password-reset-complete"
     ),
+        # PWA
+    path("", include("pwa.urls")),
 ]
