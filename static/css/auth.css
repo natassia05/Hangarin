@@ -615,3 +615,11 @@ body {
     box-shadow:
         0 0 0 4px rgba(124, 158, 217, 0.16);
 }
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-sizing: border-box;
+}

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
-
+from django.urls import path, include
 from todo_app.views import (
     HomePageView,
     TaskListView,
@@ -79,6 +78,8 @@ urlpatterns = [
         SignUpView.as_view(),
         name="signup"
     ),
+
+    path("accounts/", include("allauth.urls")),
 
     # Password reset
     path(
